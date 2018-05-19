@@ -6,7 +6,7 @@ library(ggplot2)
 #Data load
 setwd("C:/Users/Christian.Flessner/Dropbox (ZirMed)/Christian Flessner/Coursera/Reproducable Research/StormAnalysis")
 #bunzip2("StormData.csv.bz2")
-#storms<-fread("StormData.csv")
+storms<-read.csv("StormData.csv.bz2")
 
 ############Data Processing##################
 
@@ -45,12 +45,12 @@ cleanstorm<- cleanstorm %>% select(EVTYPE, PropertyDamage, CropDamage,
 names(cleanstorm)<-c("EventType","PropertyDamage","CropDamage","TotalDamage")
 cleanstorm<-arrange(cleanstorm, desc(TotalDamage))
 cleanstorm<-head(cleanstorm %>% select(EventType, PropertyDamage, CropDamage)
-                 , 15)
+                 , 10)
 meltstorm<-melt(cleanstorm,id.var="EventType")
 
-ggplot(meltstorm, aes(x=EventType, y=value, fill=variable))+
+g<-ggplot(meltstorm, aes(x=reorder(EventType,-value), y=value, fill=variable))+
         geom_bar(stat="identity")
-
+g
 
 
 
